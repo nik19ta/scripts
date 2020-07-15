@@ -1,4 +1,12 @@
 from sh import ls, pwd, git
+from sys import argv
+
+
+try: command = argv[1].lower()
+except: command = False
+
+
+print(command)
 
 def out_w(text):
     print("\033[37m{}".format(text))
@@ -10,12 +18,20 @@ except: git_untracked = False
 try: git_modified = str(git("status").split('(use "git reset HEAD <file>..." to unstage)')[1].split('Changes not staged for commit:')[0])
 except: git_modified = False
 
+print(type(command))
+if command == "-a":
+    files = ls("-la").splitlines()
+else:
+    files = ls("-l").splitlines()
 
 if git_data:
 
     print(f'Путь: {pwd()}\033[32mОбноружен git ')
     print(' ')
-    for line in ls("-l").splitlines():
+
+    files = ls("-l").splitlines()
+
+    for line in files:
         mylist = [x for x in line.split(' ') if x]
 
         if len(mylist) > 2:
@@ -44,7 +60,7 @@ else:
     print(' ')
     print(f'Путь: {pwd()}\033[31mGit не обноружен ')
     print(' ')
-    for line in ls("-l").splitlines():
+    for line in files:
         mylist = [x for x in line.split(' ') if x]
 
         if len(mylist) > 2:
