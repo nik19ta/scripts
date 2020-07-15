@@ -27,6 +27,10 @@ else:
 
 if git_data:
 
+    try: gitignore = open('.gitignore')
+    except: gitignore = ''
+
+
     print(f'Путь: {pwd()}\033[32mОбноружен git ')
     print(' ')
 
@@ -37,6 +41,9 @@ if git_data:
             if mylist[8] == '.' or mylist[8] == '..':
                 pass
             else:
+                if mylist[8] in gitignore:
+                    out_w(f'\033[31m:gitignore \033[37m{mylist[6].title()} {mylist[7]}, file:\033[31m{mylist[8]} ')
+                    continue
                 if mylist[8] in git_data: 
                     out_w(f'\033[31m:modified  \033[37m{mylist[6].title()} {mylist[7]}, file:\033[31m{mylist[8]} ')
                     continue
