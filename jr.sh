@@ -4,10 +4,14 @@ if [ -n "$1" ]; then
     then
         echo начинаю компиляцию $1.java ...
         javac index.java
-        echo запускаю $1.class ...
+        echo запускаю ./dist/$1.class ...
         echo 
         echo 
-        echo 
+        if ! [ -d ./dist/ ]; then
+            mkdir ./dist
+        fi
+        mv $1.class ./dist
+        cd dist
         java $1
     else
       echo "Файла $1 не существует."
